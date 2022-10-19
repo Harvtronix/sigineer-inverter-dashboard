@@ -5,12 +5,16 @@ import path from 'path'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { WowModule } from './wow/wow.module'
 
 @Module({
   imports: [
+    // Resolver modules
+    WowModule,
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: path.join(process.cwd(), 'src/schema.gql')
+      autoSchemaFile: path.join(process.cwd(), '..', 'schema.gql')
     })
   ],
   controllers: [AppController],

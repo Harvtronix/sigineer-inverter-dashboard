@@ -13,6 +13,9 @@ npm-debug.log*
 .next/
 out/
 
+# NestJS
+/schema.gql
+
 # Local env files
 .env*.local
 
