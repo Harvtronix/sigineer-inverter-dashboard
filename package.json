@@ -1,0 +1,19 @@
+{
+  "name": "sigineer-inverter-app",
+  "version": "0.1.0",
+  "description": "Dashboard for inverter data",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "todo"
+  },
+  "author": "Harvtronix",
+  "license": "MIT",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
