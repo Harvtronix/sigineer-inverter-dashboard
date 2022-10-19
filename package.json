@@ -15,5 +15,9 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "prettier": "^2.7.1"
   }
 }

@@ -3,6 +3,8 @@ dist/
 
 # Node/npm
 node_modules/
+package-lock.json
+package.json
 
 # Logs
 logs
