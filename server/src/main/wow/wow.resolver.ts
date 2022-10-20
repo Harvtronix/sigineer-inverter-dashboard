@@ -1,6 +1,6 @@
 import { Query, Resolver } from '@nestjs/graphql'
 
-import { Wow } from './wow'
+import { Wow } from './wow.js'
 
 @Resolver(Wow)
 export class WowResolver {
