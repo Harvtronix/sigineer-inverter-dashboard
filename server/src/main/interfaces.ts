@@ -14,8 +14,8 @@ enum InputRegister {
   OutputActivePowerLow = 10
 }
 
-interface Reading {
-  timestamp: number
+interface RawReading {
+  timestamp: string
   holdingRegisters: {
     [register in HoldingRegister]: number
   }
@@ -25,7 +25,12 @@ interface Reading {
 }
 
 interface DB {
-  readings: Array<Reading>
+  readings: Array<RawReading>
 }
 
-export { DB, HoldingRegister, InputRegister, Reading }
+enum SortOrder {
+  asc,
+  desc
+}
+
+export { DB, HoldingRegister, InputRegister, RawReading, SortOrder }

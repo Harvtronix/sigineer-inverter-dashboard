@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { JSONFile, Low } from 'lowdb'
-import { DB, InputRegister, Reading } from './interfaces.js'
+
+import { DB } from './interfaces.js'
+import { Reading } from './models/reading.js'
 
 @Injectable()
 export class DbService {
@@ -25,22 +27,7 @@ export class DbService {
   public async getAllReadings() {
     const data = await this.getData()
 
-    return data.readings
-  }
-
-  public sort(readings: Array<Reading>) {
-    return readings.sort((a, b) => a.timestamp - b.timestamp)
-  }
-
-  public getBatteryVoltage(reading: Reading) {
-    return reading.inputRegisters[InputRegister.BatteryVolt] / 100
-  }
-
-  public getOutputWatts(reading: Reading) {
-    return Number.parseInt(
-      reading.inputRegisters[InputRegister.OutputActivePowerHigh].toString() +
-        reading.inputRegisters[InputRegister.OutputActivePowerLow].toString()
-    )
+    return data.readings.map((reading) => new Reading(reading))
   }
 }
 

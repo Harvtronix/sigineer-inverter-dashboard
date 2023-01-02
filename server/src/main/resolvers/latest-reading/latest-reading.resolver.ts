@@ -1,10 +1,10 @@
 import { Query, Resolver } from '@nestjs/graphql'
-import { DbService } from '../db.service.js'
 
-import { Reading } from '../models/reading.js'
+import { DbService } from '../../db.service.js'
+import { Reading } from '../../models/reading.js'
 
 @Resolver()
-export class LatestReadingResolver {
+class LatestReadingResolver {
   private readonly dbService: DbService
 
   public constructor(dbService: DbService) {
@@ -15,16 +15,16 @@ export class LatestReadingResolver {
   async getCurrentReading(): Promise<Reading> {
     const readings = await this.dbService.getAllReadings()
 
-    const reading = this.dbService.sort(readings).at(-1)
+    readings.sort((a, b) => a.compare(b))
+
+    const reading = readings.at(-1)
 
     if (!reading) {
       throw new Error('No readings')
     }
 
-    return new Reading({
-      batteryVoltage: this.dbService.getBatteryVoltage(reading),
-      outputWatts: this.dbService.getOutputWatts(reading),
-      timestamp: reading.timestamp
-    })
+    return reading
   }
 }
+
+export { LatestReadingResolver }
