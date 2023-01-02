@@ -33,4 +33,9 @@ enum SortOrder {
   desc
 }
 
-export { DB, HoldingRegister, InputRegister, RawReading, SortOrder }
+enum NodeEnv {
+  Production = 'production',
+  Development = 'development'
+}
+
+export { DB, HoldingRegister, InputRegister, NodeEnv, RawReading, SortOrder }

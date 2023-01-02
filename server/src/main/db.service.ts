@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { JSONFile, Low } from 'lowdb'
 
-import { DB } from './interfaces.js'
+import { DB, RawReading } from './interfaces.js'
 import { Reading } from './models/reading.js'
 
 @Injectable()
 export class DbService {
-  private readonly dbFile = '../sample-data-30s-interval.json'
+  private readonly dbFile = './db.json'
   private readonly adapter: JSONFile<DB>
   private readonly db: Low<DB>
 
@@ -17,6 +17,7 @@ export class DbService {
 
   private async getData() {
     await this.db.read()
+
     this.db.data ||= {
       readings: []
     }
@@ -28,6 +29,13 @@ export class DbService {
     const data = await this.getData()
 
     return data.readings.map((reading) => new Reading(reading))
+  }
+
+  public async insertRawReading(rawReading: RawReading) {
+    const data = await this.getData()
+
+    data.readings.push(rawReading)
+    this.db.write()
   }
 }
 
