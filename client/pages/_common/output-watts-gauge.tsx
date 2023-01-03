@@ -18,14 +18,13 @@ const OutputWattsGauge = ({ watts, maxWatts }: Props) => {
       ]}
       options={{
         title: 'Output watts',
-        // height: '150px',
         toolbar: {
           controls: []
         },
         // these should be allowed to be strings instead of enums
-        theme: 'g90',
+        theme: 'g90' as any,
         gauge: {
-          type: 'semi',
+          type: 'semi' as any,
           showPercentageSymbol: false,
           numberFormatter: (num: number) => {
             return watts + 'W'

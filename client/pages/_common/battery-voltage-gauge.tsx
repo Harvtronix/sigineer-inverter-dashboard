@@ -28,14 +28,13 @@ const BatteryVoltageGauge = ({ voltage, maxVoltage, minVoltage }: Props) => {
       ]}
       options={{
         title: 'Battery voltage',
-        // height: '150px',
         toolbar: {
           controls: []
         },
         // these should be allowed to be strings instead of enums
-        theme: 'g90',
+        theme: 'g90' as any,
         gauge: {
-          type: 'semi',
+          type: 'semi' as any,
           showPercentageSymbol: false,
           numberFormatter: (num: number) => {
             return voltage + 'V'
