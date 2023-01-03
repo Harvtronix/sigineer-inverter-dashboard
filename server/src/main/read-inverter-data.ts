@@ -22,7 +22,7 @@ function readDevData(): RawReading {
     },
     inputRegisters: {
       [InputRegister.BatteryVolt]: Math.round(Math.random() * 3000) + 2800, // 2800 - 5800 millivolts
-      [InputRegister.OutputActivePowerHigh]: Math.round(Math.random() * 0xffff),
+      [InputRegister.OutputActivePowerHigh]: Math.round(Math.random() * 0x0),
       [InputRegister.OutputActivePowerLow]: Math.round(Math.random() * 0xffff),
       [InputRegister.SystemStatus]: 0
     }

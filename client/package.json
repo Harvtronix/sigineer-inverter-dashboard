@@ -9,6 +9,11 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.3",
+    "@carbon/charts-react": "^1.6.3",
+    "@carbon/react": "^1.19.0",
+    "d3": "^7.8.0",
+    "graphql": "^16.6.0",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
