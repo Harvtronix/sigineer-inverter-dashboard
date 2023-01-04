@@ -17,7 +17,8 @@ import { ReadingModule } from './resolvers/reading/reading.module.js'
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: path.join(process.cwd(), '..', 'schema.gql')
+      autoSchemaFile: path.join(process.cwd(), '..', 'schema.gql'),
+      persistedQueries: false
     })
   ]
 })
