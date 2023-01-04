@@ -29,6 +29,7 @@ interface DB {
 }
 
 enum SortOrder {
+  // These are left lowercase since they are used in the GraphQL schema
   asc,
   desc
 }
