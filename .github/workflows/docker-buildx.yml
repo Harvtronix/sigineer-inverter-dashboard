@@ -1,0 +1,25 @@
+name: Docker buildx
+on:
+  push:
+    branches:
+      - docker-latest
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v3
+
+      - name: Setup Node 🏗
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - name: Docker login
+        run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u harvtronix --password-stdin
+
+      - name: Docker build, push
+        run: docker buildx build --push --platform=linux/amd64,linux/arm64 --tag sigineer-inverter-dashboard:latest .
