@@ -15,7 +15,7 @@ const Index: NextPage<any> = ({ data, errors }) => {
       </Head>
 
       <main>
-        <h1>Welcome to the dashboard</h1>
+        <h1>Welcome to the dashboard!</h1>
         <div style={{ display: 'flex', height: '175px' }}>
           <div style={{ width: '33%' }}>
             <BatteryVoltageGauge
