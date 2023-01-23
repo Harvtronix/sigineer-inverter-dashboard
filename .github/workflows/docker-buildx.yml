@@ -27,4 +27,4 @@ jobs:
           docker buildx use mybuilder
 
       - name: Docker build, push
-        run: docker buildx build --push --platform=linux/amd64,linux/arm64 --tag sigineer-inverter-dashboard:latest .
+        run: docker buildx build --push --platform=linux/amd64,linux/arm64 --tag harvtronix/sigineer-inverter-dashboard:latest .
