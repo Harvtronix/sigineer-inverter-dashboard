@@ -16,6 +16,7 @@ await build({
     'class-transformer',
     'class-validator',
     'fsevents',
+    'serialport', // Not compatible with esbuild bundling
     'ts-morph'
   ],
   entryPoints: [path.resolve(process.cwd(), 'dist', 'main', 'index.js')],
