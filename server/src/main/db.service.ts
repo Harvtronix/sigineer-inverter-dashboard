@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { JSONFile, Low } from 'lowdb'
 
-import { DB, RawReading } from './interfaces.js'
-import { Reading } from './models/reading.js'
+import { DB, RawReading } from './interfaces'
+import { Reading } from './models/reading'
 
 @Injectable()
 export class DbService {

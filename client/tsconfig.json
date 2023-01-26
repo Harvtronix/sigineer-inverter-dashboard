@@ -10,7 +10,6 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "noEmit": true,
-    "moduleResolution": "Node",
     "noImplicitAny": false
   },
   "include": ["src"],
