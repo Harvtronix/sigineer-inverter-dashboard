@@ -5,4 +5,4 @@
 # docker buildx use mybuilder
 
 # Add --push to push to docker registry
-docker buildx build --platform=linux/amd64,linux/arm64 --tag sigineer:latest .
+docker buildx build --platform=linux/amd64,linux/arm64 --tag harvtronix/sigineer-inverter-dashboard:latest .
