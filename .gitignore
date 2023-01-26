@@ -1,26 +1,22 @@
-# compiled output
+# Compiled output
 dist/
 
 # Node/npm
 node_modules/
+
+# Ephemeral data
+db.json
 
 # Logs
 logs
 *.log
 npm-debug.log*
 
-# Next.js
-.next/
-out/
-
 # NestJS
 /schema.gql
 
 # Local env files
 .env*.local
-
-# Vercel
-.vercel
 
 # TypeScript
 *.tsbuildinfo

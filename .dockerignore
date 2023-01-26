@@ -1,7 +1,10 @@
 # Files
+/docker_buildx.sh
 /.*.js
+/.*.json
 **/.*ignore
 **/.env*
+**/db.json
 **/Dockerfile
 **/README.md
 **/sample-data*.json

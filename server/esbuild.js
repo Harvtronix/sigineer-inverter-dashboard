@@ -3,11 +3,12 @@ import path from 'path'
 
 await build({
   platform: 'node',
-  target: 'es2021',
+  target: 'es2020',
   bundle: true,
   external: [
     '@apollo/gateway',
     '@apollo/subgraph',
+    '@fastify/static',
     '@nestjs/microservices',
     '@nestjs/websockets',
     'apollo-server-fastify',
@@ -18,5 +19,5 @@ await build({
     'ts-morph'
   ],
   entryPoints: [path.resolve(process.cwd(), 'dist', 'main', 'index.js')],
-  outfile: path.resolve(process.cwd(), 'dist', 'out.js')
+  outfile: path.resolve(process.cwd(), 'dist', 'out.cjs')
 })
