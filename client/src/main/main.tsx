@@ -5,7 +5,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client/core'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import DefaultView from './views/default-view.js'
+import DefaultView from './views/default-view'
 
 const GRAPHQL_HOST =
   process.env.NODE_ENV === 'production' ? '/graphql' : 'http://localhost:3000/graphql'

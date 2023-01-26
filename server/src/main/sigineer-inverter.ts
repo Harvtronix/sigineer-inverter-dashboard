@@ -1,8 +1,5 @@
-import modbusSerial from 'modbus-serial'
-import { ReadRegisterResult } from 'modbus-serial/ModbusRTU.js'
-
-const ModbusRTU = modbusSerial.default
-type ModbusRTU = InstanceType<typeof ModbusRTU>
+import ModbusRTU from 'modbus-serial'
+import { ReadRegisterResult } from 'modbus-serial/ModbusRTU'
 
 interface RegisterData {
   [key: number]: number

@@ -1,4 +1,4 @@
-import { NodeEnv } from './interfaces.js'
+import { NodeEnv } from './interfaces'
 
 class Runtime {
   public readonly nodeEnv: NodeEnv

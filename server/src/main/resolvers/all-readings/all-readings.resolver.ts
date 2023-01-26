@@ -1,8 +1,8 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql'
 
-import { DbService } from '../../db.service.js'
-import { SortOrder } from '../../interfaces.js'
-import { Reading } from '../../models/reading.js'
+import { DbService } from '../../db.service'
+import { SortOrder } from '../../interfaces'
+import { Reading } from '../../models/reading'
 
 @Resolver()
 class AllReadingsResolver {
