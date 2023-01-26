@@ -15,6 +15,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# This dep is not compatible with esbuild so it is installed "externally"
+RUN npm install serialport
+
 # Server files
 COPY --from=builder /app/server/dist/out.cjs server/dist/out.cjs
 
