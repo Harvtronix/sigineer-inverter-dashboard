@@ -20,7 +20,6 @@ COPY --from=builder /app/server/dist/out.cjs server/dist/out.cjs
 
 # Client files
 COPY --from=builder /app/client/dist client/dist
-COPY --from=builder /app/client/.next/static client/.next/static
 
 EXPOSE 3000
 
