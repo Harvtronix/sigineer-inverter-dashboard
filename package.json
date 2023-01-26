@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "todo"
+    "url": "https://github.com/Harvtronix/sigineer-inverter-dashboard"
   },
   "author": "Harvtronix",
   "license": "MIT",
@@ -16,11 +16,19 @@
   "scripts": {
     "dev": "concurrently --kill-others 'npm -w server run start:dev' 'npm -w client run dev'",
     "start": "concurrently --kill-others 'npm -w server run start' 'npm -w client run start'",
-    "all:build": "npm --workspaces run build"
+    "all:build": "npm --workspaces run build",
+    "all:bundle": "npm --workspaces --if-present run bundle",
+    "all:clean": "npm --workspaces --if-present run clean"
   },
   "devDependencies": {
+    "@types/node": "^16.18.11",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "^8.32.0",
     "eslint-plugin-simple-import-sort": "^8.0.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "rimraf": "^4.1.2",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
     "concurrently": "^7.6.0"

@@ -6,7 +6,7 @@ import { readInverterData } from './read-inverter-data.js'
 import { Runtime } from './runtime.js'
 
 const INVERTER_READ_INTERVAL = 30000 // ms
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 3000
 const runtime = new Runtime()
 
 function createReadInterval() {
