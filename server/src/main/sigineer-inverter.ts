@@ -74,10 +74,10 @@ class SigineerInverter {
 
     switch (registerType) {
       case 'holding':
-        readFunction = inverter.readHoldingRegisters
+        readFunction = inverter.readHoldingRegisters.bind(inverter)
         break
       case 'input':
-        readFunction = inverter.readInputRegisters
+        readFunction = inverter.readInputRegisters.bind(inverter)
         break
     }
 
