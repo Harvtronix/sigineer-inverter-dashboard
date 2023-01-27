@@ -40,9 +40,10 @@ class SigineerInverter {
   private get connection(): Promise<ModbusRTU> {
     return new Promise((resolve) => {
       const c = new ModbusRTU()
-      c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE }).then(() => {
+      c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE }).then(async () => {
         console.log(c.isOpen)
         console.log(c.getID())
+        console.log(await c.readInputRegisters(0, 1))
         resolve(c)
       })
     })
