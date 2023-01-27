@@ -42,6 +42,9 @@ async function readProdData(runtime: Runtime): Promise<RawReading> {
   const holdingRegisterData = await inverter.readRegisters('holding')
   const inputRegisterData = await inverter.readRegisters('input')
 
+  console.log('over in read-inverter-data')
+  console.log(inputRegisterData)
+
   return {
     timestamp: new Date().toISOString(),
     holdingRegisters: holdingRegisterData as RawReading['holdingRegisters'],
