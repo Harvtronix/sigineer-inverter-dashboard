@@ -42,6 +42,7 @@ class SigineerInverter {
       const c = new ModbusRTU()
       c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE }).then(() => {
         console.log(c.isOpen)
+        console.log(c.getID())
         resolve(c)
       })
     })
