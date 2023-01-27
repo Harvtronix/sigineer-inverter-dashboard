@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { JSONFile, Low } from 'lowdb'
 
-import { DB, RawReading } from './interfaces'
-import { Reading } from './models/reading'
+import { DB, RawReading } from './interfaces.js'
+import { Reading } from './models/reading.js'
 
 @Injectable()
 export class DbService {
@@ -38,19 +38,3 @@ export class DbService {
     this.db.write()
   }
 }
-
-// const results = db.data.readings
-//   .filter((reading) => reading.timestamp >= 1650601226834)
-//   .sort((a, b) => a.timestamp - b.timestamp)
-
-// console.log(
-//   results.map((reading) => ({
-//     time: reading.timestamp,
-//     outputType: reading.holdingRegisters[HoldingRegister.OutputVoltType],
-//     batteryVoltage: reading.inputRegisters[InputRegister.BatteryVolt] / 100,
-//     outputWatts: Number.parseInt(
-//       reading.inputRegisters[InputRegister.OutputActivePowerHigh].toString() +
-//         reading.inputRegisters[InputRegister.OutputActivePowerLow].toString()
-//     )
-//   }))
-// )

@@ -7,17 +7,20 @@ interface RegisterData {
 
 const registerRanges = {
   holding: [
-    [0, 74],
-    [76, 5],
-    [161, 2]
+    [0, 40 - 0 + 1],
+    [43, 51 - 43 + 1],
+    [57, 73 - 57 + 1],
+    [76, 80 - 76 + 1],
+    [161, 162 - 161 + 1]
   ] as Array<[number, number]>,
   input: [
-    [0, 83],
-    [90, 13],
-    [117, 14],
-    [145, 1],
-    [180, 45],
-    [360, 22]
+    [0, 78 - 0 + 1],
+    [80, 82 - 80 + 1],
+    [90, 102 - 90 + 1],
+    [117, 130 - 117 + 1],
+    [145, 145 - 145 + 1],
+    [180, 224 - 180 + 1],
+    [360, 381 - 360 + 1]
   ] as Array<[number, number]>
 }
 
@@ -41,6 +44,7 @@ class SigineerInverter {
     return new Promise((resolve) => {
       const c = new ModbusRTU()
       c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE }).then(() => {
+        console.log('connection established to', this.addr)
         resolve(c)
       })
     })
@@ -55,16 +59,18 @@ class SigineerInverter {
    * operation and therefore may take some time to complete.
    */
   public async readRegisters(registerType: keyof typeof registerRanges) {
+    console.log('-> readRegisters', registerType)
+
     const inverter = await this.connection
     const dataMap: RegisterData = {}
-    let readFunction: (...args: Array<number>) => Promise<ReadRegisterResult>
+    let readFunction: (dataAddress: number, length: number) => Promise<ReadRegisterResult>
 
     switch (registerType) {
       case 'holding':
-        readFunction = inverter.readHoldingRegisters
+        readFunction = inverter.readHoldingRegisters.bind(inverter)
         break
       case 'input':
-        readFunction = inverter.readInputRegisters
+        readFunction = inverter.readInputRegisters.bind(inverter)
         break
     }
 
@@ -86,6 +92,7 @@ class SigineerInverter {
 
     return new Promise((resolve: (value: RegisterData) => void) => {
       inverter.close(() => {
+        console.log('<- readRegisters', dataMap)
         resolve(dataMap)
       })
     })

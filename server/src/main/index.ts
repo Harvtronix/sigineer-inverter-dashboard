@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core'
 
-import { AppModule } from './app.module'
-import { DbService } from './db.service'
-import { readInverterData } from './read-inverter-data'
-import { Runtime } from './runtime'
+import { AppModule } from './app.module.js'
+import { DbService } from './db.service.js'
+import { readInverterData } from './read-inverter-data.js'
+import { Runtime } from './runtime.js'
 
 const INVERTER_READ_INTERVAL = 30000 // ms
 const PORT = process.env.PORT || 3000
