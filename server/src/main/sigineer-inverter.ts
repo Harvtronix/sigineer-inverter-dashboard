@@ -100,6 +100,7 @@ class SigineerInverter {
 
     return new Promise((resolve: (value: RegisterData) => void) => {
       inverter.close(() => {
+        console.log('done')
         resolve(dataMap)
       })
     })
