@@ -63,9 +63,14 @@ class SigineerInverter {
   public async readRegisters(registerType: keyof typeof registerRanges) {
     const inverter = await this.connection
     console.log(inverter)
-    console.log(await inverter.readInputRegisters(0, 1))
+    console.log(
+      await inverter.readInputRegisters(
+        registerRanges['input'][0]?.[0] || 0,
+        registerRanges['input'][0]?.[1] || 0
+      )
+    )
     const dataMap: RegisterData = {}
-    let readFunction: (...args: Array<number>) => Promise<ReadRegisterResult>
+    let readFunction: (dataAddress: number, length: number) => Promise<ReadRegisterResult>
 
     switch (registerType) {
       case 'holding':
