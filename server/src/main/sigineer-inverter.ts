@@ -43,10 +43,8 @@ class SigineerInverter {
   private get connection(): Promise<ModbusRTU> {
     return new Promise((resolve) => {
       const c = new ModbusRTU()
-      c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE }).then(async () => {
-        console.log(c.isOpen)
-        console.log(c.getID())
-        console.log(await c.readInputRegisters(0, 1))
+      c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE }).then(() => {
+        console.log('connection established to', this.addr)
         resolve(c)
       })
     })
@@ -61,14 +59,9 @@ class SigineerInverter {
    * operation and therefore may take some time to complete.
    */
   public async readRegisters(registerType: keyof typeof registerRanges) {
+    console.log('-> readRegisters', registerType)
+
     const inverter = await this.connection
-    console.log(inverter)
-    console.log(
-      await inverter.readInputRegisters(
-        registerRanges['input'][0]?.[0] || 0,
-        registerRanges['input'][0]?.[1] || 0
-      )
-    )
     const dataMap: RegisterData = {}
     let readFunction: (dataAddress: number, length: number) => Promise<ReadRegisterResult>
 
@@ -100,7 +93,7 @@ class SigineerInverter {
 
     return new Promise((resolve: (value: RegisterData) => void) => {
       inverter.close(() => {
-        console.log('done')
+        console.log('<- readRegisters', dataMap)
         resolve(dataMap)
       })
     })
