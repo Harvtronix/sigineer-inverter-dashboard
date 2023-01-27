@@ -77,7 +77,6 @@ class SigineerInverter {
     try {
       // Read each of the registers within the range
       for (const range of registerRanges[registerType]) {
-        console.log(range)
         const response = await readFunction(range[0], range[1])
 
         let curRegister = range[0]
