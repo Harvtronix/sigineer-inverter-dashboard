@@ -1,6 +1,6 @@
-import { HoldingRegister, InputRegister, NodeEnv, RawReading } from './interfaces'
-import { Runtime } from './runtime'
-import { SigineerInverter } from './sigineer-inverter'
+import { HoldingRegister, InputRegister, NodeEnv, RawReading } from './interfaces.js'
+import { Runtime } from './runtime.js'
+import { SigineerInverter } from './sigineer-inverter.js'
 
 async function readInverterData(runtime: Runtime): Promise<RawReading> {
   if (runtime.nodeEnv === NodeEnv.Development) {

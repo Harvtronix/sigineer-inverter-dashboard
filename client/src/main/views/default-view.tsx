@@ -5,10 +5,10 @@ import '@carbon/charts/styles.css'
 import { useQuery } from '@apollo/client'
 import { Theme } from '@carbon/react'
 
-import BatteryVoltageGauge from '../_common/battery-voltage-gauge'
-import FullPageError from '../_common/full-page-error'
-import OutputWattsGauge from '../_common/output-watts-gauge'
-import { MAIN_DASHBOARD_QUERY, T_MAIN_DASHBOARD_QUERY } from '../queries'
+import BatteryVoltageGauge from '../_common/battery-voltage-gauge.js'
+import FullPageError from '../_common/full-page-error.js'
+import OutputWattsGauge from '../_common/output-watts-gauge.js'
+import { MAIN_DASHBOARD_QUERY, T_MAIN_DASHBOARD_QUERY } from '../queries.js'
 
 const Layout = ({ children }) => {
   return (

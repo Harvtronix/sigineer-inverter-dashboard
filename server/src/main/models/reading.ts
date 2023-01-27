@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 
-import { InputRegister, RawReading } from '../interfaces'
+import { InputRegister, RawReading } from '../interfaces.js'
 
 @ObjectType()
 class Reading {

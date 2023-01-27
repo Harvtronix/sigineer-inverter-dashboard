@@ -1,7 +1,7 @@
 import { Query, Resolver } from '@nestjs/graphql'
 
-import { DbService } from '../../db.service'
-import { Reading } from '../../models/reading'
+import { DbService } from '../../db.service.js'
+import { Reading } from '../../models/reading.js'
 
 @Resolver()
 class LatestReadingResolver {

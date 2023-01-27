@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 
-import { DbService } from '../../db.service'
-import { AllReadingsResolver } from './all-readings.resolver'
+import { DbService } from '../../db.service.js'
+import { AllReadingsResolver } from './all-readings.resolver.js'
 
 @Module({ providers: [AllReadingsResolver, DbService] })
 class AllReadingsModule {}

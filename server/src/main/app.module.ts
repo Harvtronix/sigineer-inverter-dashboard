@@ -4,10 +4,10 @@ import { GraphQLModule, registerEnumType } from '@nestjs/graphql'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import path from 'path'
 
-import { SortOrder } from './interfaces'
-import { AllReadingsModule } from './resolvers/all-readings/all-readings.module'
-import { LatestReadingModule } from './resolvers/latest-reading/latest-reading.module'
-import { ReadingModule } from './resolvers/reading/reading.module'
+import { SortOrder } from './interfaces.js'
+import { AllReadingsModule } from './resolvers/all-readings/all-readings.module.js'
+import { LatestReadingModule } from './resolvers/latest-reading/latest-reading.module.js'
+import { ReadingModule } from './resolvers/reading/reading.module.js'
 
 @Module({
   imports: [
