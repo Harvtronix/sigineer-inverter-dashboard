@@ -1,22 +1,24 @@
-FROM node:16 as builder
+FROM node:18 as builder
 WORKDIR /app
 
 COPY . .
 
+ENV NODE_ENV=production
+
 RUN npm install
 
-RUN NODE_ENV=production npm run all:build
-RUN NODE_ENV=production npm run all:bundle
+RUN npm run all:build
+RUN npm run all:bundle
 
 ###
 
-FROM node:16
+FROM node:18
 WORKDIR /app
 
 ENV NODE_ENV=production
 
 # This dep is not compatible with esbuild so it is installed "externally"
-RUN npm install serialport
+RUN npm -g install serialport
 
 # Server files
 COPY --from=builder /app/server/dist/out.cjs server/dist/out.cjs
