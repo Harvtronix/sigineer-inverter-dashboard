@@ -9,7 +9,7 @@ const MAIN_DASHBOARD_QUERY = gql`
     }
   }
 `
-interface T_MAIN_DASHBOARD_QUERY {
+interface TMainDashboardQuery {
   latestReading: {
     timestamp: string
     batteryVoltage: number
@@ -17,4 +17,4 @@ interface T_MAIN_DASHBOARD_QUERY {
   }
 }
 
-export { MAIN_DASHBOARD_QUERY, T_MAIN_DASHBOARD_QUERY }
+export { MAIN_DASHBOARD_QUERY, TMainDashboardQuery }
