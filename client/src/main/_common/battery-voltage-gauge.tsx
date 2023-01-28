@@ -36,7 +36,7 @@ const BatteryVoltageGauge = ({ voltage, maxVoltage, minVoltage }: Props) => {
         gauge: {
           type: 'semi' as any,
           showPercentageSymbol: false,
-          numberFormatter: (num: number) => {
+          numberFormatter: () => {
             return voltage + 'V'
           },
           valueFontSize: () => {
