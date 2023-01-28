@@ -8,7 +8,7 @@ import { Theme } from '@carbon/react'
 import BatteryVoltageGauge from '../_common/battery-voltage-gauge.js'
 import FullPageError from '../_common/full-page-error.js'
 import OutputWattsGauge from '../_common/output-watts-gauge.js'
-import { MAIN_DASHBOARD_QUERY, T_MAIN_DASHBOARD_QUERY } from '../queries.js'
+import { MAIN_DASHBOARD_QUERY, TMainDashboardQuery } from '../queries.js'
 
 const Layout = ({ children }) => {
   return (
@@ -19,7 +19,7 @@ const Layout = ({ children }) => {
 }
 
 const DefaultView = () => {
-  const { data, error, loading } = useQuery<T_MAIN_DASHBOARD_QUERY>(MAIN_DASHBOARD_QUERY)
+  const { data, error, loading } = useQuery<TMainDashboardQuery>(MAIN_DASHBOARD_QUERY)
 
   if (loading) {
     return <Layout>Loading...</Layout>
