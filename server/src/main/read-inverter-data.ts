@@ -3,6 +3,8 @@ import { Runtime } from './runtime.js'
 import { SigineerInverter } from './sigineer-inverter.js'
 
 async function readInverterData(runtime: Runtime): Promise<RawReading> {
+  console.log(new Date(), 'Reading inverter data')
+
   if (runtime.nodeEnv === NodeEnv.Development) {
     return readDevData()
   } else {

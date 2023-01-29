@@ -12,10 +12,19 @@ const runtime = new Runtime()
 function createReadInterval() {
   const db = new DbService()
 
-  setInterval(async () => {
-    const rawReading = await readInverterData(runtime)
-    await db.insertRawReading(rawReading)
-  }, INVERTER_READ_INTERVAL)
+  const fxn = async () => {
+    try {
+      const rawReading = await readInverterData(runtime)
+      await db.insertRawReading(rawReading)
+    } catch (err) {
+      console.error(new Date(), 'Error encountered while reading inverter data', err)
+    }
+
+    setTimeout(fxn, INVERTER_READ_INTERVAL)
+  }
+
+  console.log(new Date(), 'Running initial data retrieval')
+  setImmediate(fxn)
 }
 
 async function bootstrap() {

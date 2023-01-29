@@ -10,8 +10,8 @@ class Runtime {
     // For example: INVERTER_PATHS=/dev/ttyUSB0,/dev/ttyUSB1
     this.inverterPaths = process.env.INVERTER_PATHS ? process.env.INVERTER_PATHS.split(',') : []
 
-    console.log('nodeEnv:      ', this.nodeEnv)
-    console.log('inverterPaths:', this.inverterPaths)
+    console.log(new Date(), 'nodeEnv:      ', this.nodeEnv)
+    console.log(new Date(), 'inverterPaths:', this.inverterPaths)
   }
 }
 
