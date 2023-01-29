@@ -1,4 +1,4 @@
-FROM node:18 as builder
+FROM node:18-alpine as builder
 WORKDIR /app
 
 COPY . .
@@ -12,7 +12,7 @@ RUN npm run all:bundle
 
 ###
 
-FROM node:18
+FROM node:18-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
