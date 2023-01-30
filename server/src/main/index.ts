@@ -23,8 +23,8 @@ function createReadInterval() {
     setTimeout(fxn, INVERTER_READ_INTERVAL)
   }
 
-  console.log(new Date(), 'Running initial data retrieval')
-  setImmediate(fxn)
+  console.log(new Date(), 'Queuing initial data retrieval')
+  setTimeout(fxn, INVERTER_READ_INTERVAL)
 }
 
 async function bootstrap() {
