@@ -51,13 +51,13 @@ async function readProdData(runtime: Runtime): Promise<RawReading> {
     holdingRegisterData = await Promise.race([
       inverter.readRegisters('holding'),
       new Promise((_, reject) => {
-        setTimeout(reject, INVERTER_READ_TIMEOUT)
+        setTimeout(() => reject(new Error('Inverter read timeout')), INVERTER_READ_TIMEOUT)
       })
     ])
     inputRegisterData = await Promise.race([
       inverter.readRegisters('input'),
       new Promise((_, reject) => {
-        setTimeout(reject, INVERTER_READ_TIMEOUT)
+        setTimeout(() => reject(new Error('Inverter read timeout')), INVERTER_READ_TIMEOUT)
       })
     ])
   } finally {
