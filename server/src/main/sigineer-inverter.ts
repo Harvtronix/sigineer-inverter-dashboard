@@ -18,7 +18,7 @@ const registerRanges = {
     [80, 82 - 80 + 1],
     [90, 102 - 90 + 1],
     [117, 130 - 117 + 1],
-    [145, 145 - 145 + 1],
+    [145, /* 145 - 145 + */ 1],
     [180, 224 - 180 + 1],
     [360, 381 - 360 + 1]
   ] as Array<[number, number]>
@@ -39,19 +39,32 @@ class SigineerInverter {
   }
 
   private readonly addr: string
-
-  private get connection(): Promise<ModbusRTU> {
-    return new Promise((resolve) => {
-      const c = new ModbusRTU()
-      c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE }).then(() => {
-        console.log(new Date(), 'connection established to', this.addr)
-        resolve(c)
-      })
-    })
-  }
+  private connection?: ModbusRTU
 
   public constructor(addr: string) {
     this.addr = addr
+  }
+
+  public async connect() {
+    const c = new ModbusRTU()
+    await c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE })
+    this.connection = c
+
+    console.log(new Date(), 'connection established to', this.addr)
+  }
+
+  public disconnect() {
+    return new Promise<void>((resolve) => {
+      if (!this.connection) {
+        resolve()
+        return
+      }
+
+      this.connection.close(() => {
+        console.log(new Date(), 'closed connection to', this.addr)
+        resolve()
+      })
+    })
   }
 
   /**
@@ -61,41 +74,35 @@ class SigineerInverter {
   public async readRegisters(registerType: keyof typeof registerRanges) {
     console.log(new Date(), '-> readRegisters', registerType)
 
-    const inverter = await this.connection
+    if (!this.connection) {
+      throw new Error('Not connected to inverter')
+    }
+
     const dataMap: RegisterData = {}
     let readFunction: (dataAddress: number, length: number) => Promise<ReadRegisterResult>
 
     switch (registerType) {
       case 'holding':
-        readFunction = inverter.readHoldingRegisters.bind(inverter)
+        readFunction = this.connection.readHoldingRegisters.bind(this.connection)
         break
       case 'input':
-        readFunction = inverter.readInputRegisters.bind(inverter)
+        readFunction = this.connection.readInputRegisters.bind(this.connection)
         break
     }
 
-    try {
-      // Read each of the registers within the range
-      for (const range of registerRanges[registerType]) {
-        const response = await readFunction(range[0], range[1])
+    // Read each of the registers within the range
+    for (const range of registerRanges[registerType]) {
+      const response = await readFunction(range[0], range[1])
 
-        let curRegister = range[0]
-        response.data.forEach((registerValue: number) => {
-          dataMap[curRegister] = registerValue
-          curRegister++
-        })
-      }
-    } catch (e) {
-      // Quietly dismiss this error to gracefully fall into the connection-close logic
-      console.error(e)
+      let curRegister = range[0]
+      response.data.forEach((registerValue: number) => {
+        dataMap[curRegister] = registerValue
+        curRegister++
+      })
     }
 
-    return new Promise((resolve: (value: RegisterData) => void) => {
-      inverter.close(() => {
-        console.log(new Date(), '<- readRegisters', dataMap)
-        resolve(dataMap)
-      })
-    })
+    console.log(new Date(), '<- readRegisters', dataMap)
+    return dataMap
   }
 }
 
