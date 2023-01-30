@@ -45,7 +45,7 @@ async function readProdData(runtime: Runtime): Promise<RawReading> {
   // TODO: handle multiple inverters
   const inverter = new SigineerInverter(runtime.inverterPaths[0])
 
-  inverter.connect()
+  await inverter.connect()
 
   try {
     holdingRegisterData = await Promise.race([
