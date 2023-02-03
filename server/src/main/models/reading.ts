@@ -18,9 +18,11 @@ class Reading {
   }
 
   private static getOutputWatts(rawReading: RawReading) {
-    return Number.parseInt(
-      rawReading.inputRegisters[InputRegister.OutputActivePowerHigh].toString() +
-        rawReading.inputRegisters[InputRegister.OutputActivePowerLow].toString()
+    return (
+      Number.parseInt(
+        rawReading.inputRegisters[InputRegister.OutputActivePowerHigh].toString() +
+          rawReading.inputRegisters[InputRegister.OutputActivePowerLow].toString()
+      ) / 10
     )
   }
 
