@@ -15,6 +15,7 @@ enum InputRegister {
 }
 
 interface RawReading {
+  inverterRef: string
   timestamp: string
   holdingRegisters: {
     [register in HoldingRegister]: number
