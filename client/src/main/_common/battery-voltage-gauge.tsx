@@ -10,12 +10,13 @@
 import { GaugeChart } from '@carbon/charts-react'
 
 interface Props {
+  inverterRef: string
   voltage: number
   maxVoltage: number
   minVoltage: number
 }
 
-const BatteryVoltageGauge = ({ voltage, maxVoltage, minVoltage }: Props) => {
+const BatteryVoltageGauge = ({ inverterRef, voltage, maxVoltage, minVoltage }: Props) => {
   const vPercent = ((voltage - minVoltage) / (maxVoltage - minVoltage)) * 100
 
   return (
@@ -27,7 +28,7 @@ const BatteryVoltageGauge = ({ voltage, maxVoltage, minVoltage }: Props) => {
         }
       ]}
       options={{
-        title: 'Battery voltage',
+        title: `Battery voltage - ${inverterRef}`,
         toolbar: {
           controls: []
         },

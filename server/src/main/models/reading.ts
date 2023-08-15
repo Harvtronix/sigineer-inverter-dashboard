@@ -4,6 +4,9 @@ import { InputRegister, RawReading } from '../interfaces.js'
 
 @ObjectType()
 class Reading {
+  @Field({ name: 'inverterRef' })
+  public readonly inverterRef: string
+
   @Field({ name: 'batteryVoltage' })
   public readonly batteryVoltage: number
 
@@ -13,22 +16,10 @@ class Reading {
   @Field({ name: 'timestamp' })
   public readonly timestamp: Date
 
-  private static getBatteryVoltage(rawReading: RawReading) {
-    return rawReading.inputRegisters[InputRegister.BatteryVolt] / 100
-  }
-
-  private static getOutputWatts(rawReading: RawReading) {
-    return (
-      Number.parseInt(
-        rawReading.inputRegisters[InputRegister.OutputActivePowerHigh].toString() +
-          rawReading.inputRegisters[InputRegister.OutputActivePowerLow].toString()
-      ) / 10
-    )
-  }
-
   constructor(rawReading: RawReading) {
-    this.batteryVoltage = Reading.getBatteryVoltage(rawReading)
-    this.outputWatts = Reading.getOutputWatts(rawReading)
+    this.inverterRef = rawReading.inverterRef
+    this.batteryVoltage = getBatteryVoltage(rawReading)
+    this.outputWatts = getOutputWatts(rawReading)
     this.timestamp = new Date(rawReading.timestamp)
   }
 
@@ -43,6 +34,19 @@ class Reading {
 
     return 1
   }
+}
+
+function getBatteryVoltage(rawReading: RawReading) {
+  return rawReading.inputRegisters[InputRegister.BatteryVolt] / 100
+}
+
+function getOutputWatts(rawReading: RawReading) {
+  return (
+    Number.parseInt(
+      rawReading.inputRegisters[InputRegister.OutputActivePowerHigh].toString() +
+        rawReading.inputRegisters[InputRegister.OutputActivePowerLow].toString()
+    ) / 10
+  )
 }
 
 export { Reading }

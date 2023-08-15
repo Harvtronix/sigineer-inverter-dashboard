@@ -1,5 +1,7 @@
 import { NodeEnv } from './interfaces.js'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 class Runtime {
   public readonly nodeEnv: NodeEnv
   public readonly inverterPaths: Array<string>

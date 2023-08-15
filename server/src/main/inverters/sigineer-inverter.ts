@@ -1,5 +1,7 @@
 import ModbusRTU from 'modbus-serial'
 import { ReadRegisterResult } from 'modbus-serial/ModbusRTU'
+import { Inverter } from './inverter.js'
+import { RawReading } from '../interfaces.js'
 
 interface RegisterData {
   [key: number]: number
@@ -25,27 +27,18 @@ const registerRanges = {
 }
 
 const BAUD_RATE = 9600
+const INVERTER_READ_TIMEOUT = 15000
 
-class SigineerInverter {
-  /**
-   * Converts a set of register values to a string of ascii characters.
-   */
-  public static registersToAscii(...registerValues: Array<number>) {
-    const serial = registerValues
-      .map((word) => [word >>> 8, word & 0xff])
-      .reduce((prev, cur) => prev.concat(cur), [])
-
-    return String.fromCharCode(...serial)
-  }
-
+class SigineerInverter extends Inverter {
   private readonly addr: string
   private connection?: ModbusRTU
 
   public constructor(addr: string) {
+    super()
     this.addr = addr
   }
 
-  public async connect() {
+  private async connect() {
     const c = new ModbusRTU()
     await c.connectRTUBuffered(this.addr, { baudRate: BAUD_RATE })
     this.connection = c
@@ -53,7 +46,7 @@ class SigineerInverter {
     console.log(new Date(), 'connection established to', this.addr)
   }
 
-  public disconnect() {
+  private disconnect() {
     return new Promise<void>((resolve) => {
       if (!this.connection) {
         resolve()
@@ -71,7 +64,7 @@ class SigineerInverter {
    * Reads from the specified set of registers on the inverter. This is a serial connection
    * operation and therefore may take some time to complete.
    */
-  public async readRegisters(registerType: keyof typeof registerRanges) {
+  private async readRegisters(registerType: keyof typeof registerRanges) {
     console.log(new Date(), '-> readRegisters', registerType)
 
     if (!this.connection) {
@@ -104,6 +97,51 @@ class SigineerInverter {
     console.log(new Date(), '<- readRegisters', dataMap)
     return dataMap
   }
+
+  public override async readRawData(): Promise<RawReading> {
+    let holdingRegisterData
+    let inputRegisterData
+
+    await this.connect()
+
+    try {
+      holdingRegisterData = await Promise.race([
+        this.readRegisters('holding'),
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Inverter read timeout')), INVERTER_READ_TIMEOUT)
+        })
+      ])
+      inputRegisterData = await Promise.race([
+        this.readRegisters('input'),
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Inverter read timeout')), INVERTER_READ_TIMEOUT)
+        })
+      ])
+    } finally {
+      // Attempt a disconnect without failing the presumed-successful read operation
+      try {
+        await this.disconnect()
+      } catch {}
+    }
+
+    return {
+      inverterRef: this.addr,
+      timestamp: new Date().toISOString(),
+      holdingRegisters: holdingRegisterData as RawReading['holdingRegisters'],
+      inputRegisters: inputRegisterData as RawReading['inputRegisters']
+    }
+  }
 }
 
-export { SigineerInverter }
+/**
+ * Converts a set of register values to a string of ascii characters.
+ */
+function registersToAscii(...registerValues: Array<number>) {
+  const serial = registerValues
+    .map((word) => [word >>> 8, word & 0xff])
+    .reduce((prev, cur) => prev.concat(cur), [])
+
+  return String.fromCharCode(...serial)
+}
+
+export { SigineerInverter, registersToAscii }
