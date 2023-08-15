@@ -1,11 +1,12 @@
 import { GaugeChart } from '@carbon/charts-react'
 
 interface Props {
+  inverterRef: string
   watts: number
   maxWatts: number
 }
 
-const OutputWattsGauge = ({ watts, maxWatts }: Props) => {
+const OutputWattsGauge = ({ inverterRef, watts, maxWatts }: Props) => {
   const vPercent = (watts / maxWatts) * 100
 
   return (
@@ -17,7 +18,7 @@ const OutputWattsGauge = ({ watts, maxWatts }: Props) => {
         }
       ]}
       options={{
-        title: 'Output watts',
+        title: `Output watts - ${inverterRef}`,
         toolbar: {
           controls: []
         },

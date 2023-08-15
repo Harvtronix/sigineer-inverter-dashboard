@@ -6,15 +6,13 @@ import path from 'path'
 
 import { SortOrder } from './interfaces.js'
 import { AllReadingsModule } from './resolvers/all-readings/all-readings.module.js'
-import { LatestReadingModule } from './resolvers/latest-reading/latest-reading.module.js'
-import { ReadingModule } from './resolvers/reading/reading.module.js'
+import { LatestReadingModule } from './resolvers/latest-reading-set/latest-reading-set.module.js'
 
 @Module({
   imports: [
     // Resolver modules
     AllReadingsModule,
     LatestReadingModule,
-    ReadingModule,
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

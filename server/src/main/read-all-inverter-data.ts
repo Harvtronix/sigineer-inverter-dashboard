@@ -4,23 +4,23 @@ import { SigineerInverter } from './inverters/sigineer-inverter.js'
 
 const INVERTER_READ_TIMEOUT = 15000
 
-async function readInverterData(runtime: Runtime): Promise<RawReading[]> {
+async function readAllInverterData(runtime: Runtime): Promise<RawReading[]> {
   console.log(new Date(), 'Reading inverter data')
 
   if (runtime.nodeEnv === NodeEnv.Development) {
-    return [readDevData(1), readDevData(2)]
+    return runtime.inverterPaths.map((inverterRef) => readDevData(inverterRef))
   } else {
     return await readProdData(runtime)
   }
 }
 
-function readDevData(serial: number): RawReading {
+function readDevData(inverterRef: RawReading['inverterRef']): RawReading {
   return {
-    inverterRef: 'inverter-' + serial,
+    inverterRef,
     timestamp: new Date().toISOString(),
     holdingRegisters: {
       [HoldingRegister.OutputVoltType]: 1,
-      [HoldingRegister.Serial1]: serial,
+      [HoldingRegister.Serial1]: 1,
       [HoldingRegister.Serial2]: 1,
       [HoldingRegister.Serial3]: 1,
       [HoldingRegister.Serial4]: 1,
@@ -51,4 +51,4 @@ async function readProdData(runtime: Runtime): Promise<Array<RawReading>> {
   return Promise.all(promises)
 }
 
-export { readInverterData }
+export { readAllInverterData }

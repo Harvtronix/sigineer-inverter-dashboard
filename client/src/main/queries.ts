@@ -2,7 +2,8 @@ import { gql } from '@apollo/client'
 
 const MAIN_DASHBOARD_QUERY = gql`
   query {
-    latestReading {
+    latestReadingSet {
+      inverterRef
       timestamp
       batteryVoltage
       outputWatts
@@ -10,11 +11,14 @@ const MAIN_DASHBOARD_QUERY = gql`
   }
 `
 interface TMainDashboardQuery {
-  latestReading: {
-    timestamp: string
-    batteryVoltage: number
-    outputWatts: number
-  }
+  latestReadingSet: [
+    {
+      inverterRef: string
+      timestamp: string
+      batteryVoltage: number
+      outputWatts: number
+    }
+  ]
 }
 
 export { MAIN_DASHBOARD_QUERY, TMainDashboardQuery }

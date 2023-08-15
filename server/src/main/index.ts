@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './app.module.js'
 import { DbService } from './db.service.js'
-import { readInverterData } from './read-all-inverter-data.js'
+import { readAllInverterData } from './read-all-inverter-data.js'
 import { Runtime } from './runtime.js'
 
 const INVERTER_READ_INTERVAL = 30000 // ms
@@ -14,8 +14,8 @@ function createReadInterval() {
 
   const fxn = async () => {
     try {
-      const rawReadings = await readInverterData(runtime)
-      await Promise.all(rawReadings.map((rawReading) => db.insertRawReading(rawReading)))
+      const rawReadings = await readAllInverterData(runtime)
+      await db.insertRawReadings(...rawReadings)
     } catch (err) {
       console.error(new Date(), 'Error encountered while reading inverter data', err)
     }
@@ -38,6 +38,3 @@ async function bootstrap() {
 
 createReadInterval()
 bootstrap()
-
-// TODO: the db now has raw readings from multiple inverters in it, keyed by inverterRef.
-// Need to adjust the graphql endpoints to become aware of this.
