@@ -49,19 +49,31 @@ const DefaultView = () => {
 
   return (
     <Layout>
-      <h1>Welcome to the dashboard!</h1>
-      <div style={{ display: 'flex', height: '175px' }}>
-        <div style={{ width: '33%' }}>
-          <BatteryVoltageGauge
-            maxVoltage={58.4}
-            minVoltage={43}
-            voltage={data.latestReading.batteryVoltage}
-          />
-        </div>
-        <div style={{ width: '33%' }}>
-          <OutputWattsGauge watts={data.latestReading.outputWatts} maxWatts={6000} />
-        </div>
-      </div>
+      <h1 style={{ marginBottom: '20px' }}>Welcome to the dashboard!</h1>
+      {data.latestReadingSet.map((reading) => {
+        return (
+          <div
+            key={reading.inverterRef}
+            style={{ display: 'flex', height: '175px', marginBottom: '50px' }}
+          >
+            <div style={{ width: '50%' }}>
+              <BatteryVoltageGauge
+                inverterRef={reading.inverterRef}
+                maxVoltage={58.4}
+                minVoltage={43}
+                voltage={reading.batteryVoltage}
+              />
+            </div>
+            <div style={{ width: '50%' }}>
+              <OutputWattsGauge
+                inverterRef={reading.inverterRef}
+                watts={reading.outputWatts}
+                maxWatts={6000}
+              />
+            </div>
+          </div>
+        )
+      })}
     </Layout>
   )
 }

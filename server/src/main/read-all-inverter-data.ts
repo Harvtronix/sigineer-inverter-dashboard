@@ -1,21 +1,22 @@
 import { HoldingRegister, InputRegister, NodeEnv, RawReading } from './interfaces.js'
 import { Runtime } from './runtime.js'
-import { SigineerInverter } from './sigineer-inverter.js'
+import { SigineerInverter } from './inverters/sigineer-inverter.js'
 
 const INVERTER_READ_TIMEOUT = 15000
 
-async function readInverterData(runtime: Runtime): Promise<RawReading> {
+async function readAllInverterData(runtime: Runtime): Promise<RawReading[]> {
   console.log(new Date(), 'Reading inverter data')
 
   if (runtime.nodeEnv === NodeEnv.Development) {
-    return readDevData()
+    return runtime.inverterPaths.map((inverterRef) => readDevData(inverterRef))
   } else {
     return await readProdData(runtime)
   }
 }
 
-function readDevData(): RawReading {
+function readDevData(inverterRef: RawReading['inverterRef']): RawReading {
   return {
+    inverterRef,
     timestamp: new Date().toISOString(),
     holdingRegisters: {
       [HoldingRegister.OutputVoltType]: 1,
@@ -34,43 +35,20 @@ function readDevData(): RawReading {
   }
 }
 
-async function readProdData(runtime: Runtime): Promise<RawReading> {
+async function readProdData(runtime: Runtime): Promise<Array<RawReading>> {
   // Guard -- no inverter paths available
   if (runtime.inverterPaths.length === 0 || !runtime.inverterPaths[0]) {
     throw new Error('No inverter paths found. Export them via "INVERTER_PATHS" envvar')
   }
 
-  let holdingRegisterData
-  let inputRegisterData
-  // TODO: handle multiple inverters
-  const inverter = new SigineerInverter(runtime.inverterPaths[0])
+  const promises = runtime.inverterPaths.map((inverterRef) => {
+    // In the future, this could be adjusted to accommodate more than one inverter type
+    const inverter = new SigineerInverter(inverterRef)
 
-  await inverter.connect()
+    return inverter.readRawData()
+  })
 
-  try {
-    holdingRegisterData = await Promise.race([
-      inverter.readRegisters('holding'),
-      new Promise((_, reject) => {
-        setTimeout(reject, INVERTER_READ_TIMEOUT)
-      })
-    ])
-    inputRegisterData = await Promise.race([
-      inverter.readRegisters('input'),
-      new Promise((_, reject) => {
-        setTimeout(reject, INVERTER_READ_TIMEOUT)
-      })
-    ])
-  } finally {
-    try {
-      await inverter.disconnect()
-    } catch {}
-  }
-
-  return {
-    timestamp: new Date().toISOString(),
-    holdingRegisters: holdingRegisterData as RawReading['holdingRegisters'],
-    inputRegisters: inputRegisterData as RawReading['inputRegisters']
-  }
+  return Promise.all(promises)
 }
 
-export { readInverterData }
+export { readAllInverterData }

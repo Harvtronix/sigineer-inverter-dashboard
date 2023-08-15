@@ -31,10 +31,10 @@ export class DbService {
     return data.readings.map((reading) => new Reading(reading))
   }
 
-  public async insertRawReading(rawReading: RawReading) {
+  public async insertRawReadings(...rawReadings: Array<RawReading>) {
     const data = await this.getData()
 
-    data.readings.push(rawReading)
-    this.db.write()
+    rawReadings.forEach((rawReading) => data.readings.push(rawReading))
+    return this.db.write()
   }
 }
